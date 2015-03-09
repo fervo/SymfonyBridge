@@ -1,0 +1,69 @@
+{% extends 'WebProfilerBundle:Profiler:layout.html.twig' %}
+
+{% block toolbar %}
+    {% set messageCount = collector.totalNumMessages %}
+
+    {% if messageCount == 0 %}
+        {% set color = 'grey' %}
+    {% else %}
+        {% set color = 'green' %}
+    {% endif %}
+
+    {% set icon %}
+        {% include '@SimpleBusEventBusBundle/Resources/views/icon.html.twig' with {height: 25} only %}
+        <span class="sf-toolbar-status sf-toolbar-status-{{ color }}">{{ messageCount }}</span>
+    {% endset %}
+
+    {% set text %}
+        <div class="sf-toolbar-info-piece">
+            <b>Messages</b>
+            <span class="sf-toolbar-status sf-toolbar-status-grey">{{ messageCount }}</span>
+        </div>
+    {% endset %}
+
+    {% include 'WebProfilerBundle:Profiler:toolbar_item.html.twig' with { 'link': 'simple_bus' } %}
+{% endblock %}
+
+{% block head %}
+    {{parent()}}
+{% endblock %}
+
+{% block menu %}
+    <span class="label">
+        <span class="icon">
+            {% include '@SimpleBusEventBusBundle/Resources/views/icon.html.twig' with {height: 30} only %}
+        </span>
+        <strong>SimpleBus</strong>
+        <span class="count">
+            <span>{{ collector.totalNumMessages }}</span>
+        </span>
+    </span>
+{% endblock %}
+
+{% block panel %}
+    <h2>SimpleBus</h2>
+
+    <ul>
+    <li>
+        <strong>Messages</strong>
+        <table class="messagelogs inline">
+            <tr>
+                <th>Timestamp</th>
+                <th>Bus</th>
+                <th>Message ID</th>
+                <th>Message Class</th>
+                <th>Message Stage</th>
+            </tr>
+            {% for messageData in collector.messages %}
+                <tr>
+                    <td>{{ messageData.timestamp }}</td>
+                    <td>{{ messageData.bus }}</td>
+                    <td>{{ messageData.messageId }}</td>
+                    <td>{{ messageData.messageClass }}</td>
+                    <td>{{ messageData.stage }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </li>
+    </ul>
+{% endblock %}
