@@ -24,7 +24,7 @@ class MessageLogger
         $this->messages = [];
     }
 
-    public function logMessage(Message $message, $busName, $stage)
+    public function logMessage(Message $message, $busName)
     {
         if (!$this->enabled) {
             return;
@@ -41,7 +41,7 @@ class MessageLogger
             }
         }
 
-        $this->messages[] = new LogEntry($message, $busName, $stage);
+        $this->messages[] = new LogEntry($message, $busName);
     }
 
     public function getLogs()

@@ -18,11 +18,10 @@ class MessageLogger implements MessageBusMiddleware
 
     private $stageName;
 
-    public function __construct(Logger $messageLogger, $busName, $stageName)
+    public function __construct(Logger $messageLogger, $busName)
     {
         $this->logger = $messageLogger;
         $this->busName = $busName;
-        $this->stageName = $stageName;
     }
 
     /**
@@ -30,7 +29,7 @@ class MessageLogger implements MessageBusMiddleware
      */
     public function handle(Message $message, callable $next)
     {
-        $this->logger->logMessage($message, $this->busName, $this->stageName);
+        $this->logger->logMessage($message, $this->busName);
 
         $next($message);
     }

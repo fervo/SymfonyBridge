@@ -45,22 +45,50 @@
 
     <ul>
     <li>
+        <strong>Buses</strong>
+
+        <table class="messagelogs inline">
+            <tr>
+                <th>Name</th>
+            </tr>
+            {% for bus in collector.buses %}
+                <tr>
+                    <td>{{ bus.name }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </li>
+
+    {% for bus in collector.buses if bus.middlewares|length > 0 %}
+    <li>
+        <strong>{{bus.name}}</strong>
+
+        <table class="messagelogs inline">
+            <tr>
+                <th>Middleware</th>
+            </tr>
+            {% for middleware in bus.middlewares %}
+                <tr>
+                    <td>{{ middleware }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </li>
+    {% endfor %}
+
+    <li>
         <strong>Messages</strong>
         <table class="messagelogs inline">
             <tr>
                 <th>Timestamp</th>
                 <th>Bus</th>
-                <th>Message ID</th>
                 <th>Message Class</th>
-                <th>Message Stage</th>
             </tr>
             {% for messageData in collector.messages %}
                 <tr>
                     <td>{{ messageData.timestamp }}</td>
                     <td>{{ messageData.bus }}</td>
-                    <td>{{ messageData.messageId }}</td>
                     <td>{{ messageData.messageClass }}</td>
-                    <td>{{ messageData.stage }}</td>
                 </tr>
             {% endfor %}
         </table>

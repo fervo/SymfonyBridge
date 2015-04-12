@@ -12,11 +12,10 @@ class LogEntry
     private $stage;
     private $timestamp;
 
-    public function __construct(Message $message, $busName, $stage)
+    public function __construct(Message $message, $busName)
     {
         $this->message = $message;
         $this->busName = $busName;
-        $this->stage = $stage;
         $this->timestamp = microtime(true);
     }
 
@@ -28,11 +27,6 @@ class LogEntry
     public function getBusName()
     {
         return $this->busName;
-    }
-
-    public function getStage()
-    {
-        return $this->stage;
     }
 
     public function getTimestamp()

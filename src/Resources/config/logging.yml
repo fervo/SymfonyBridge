@@ -2,45 +2,21 @@ services:
     simple_bus.message_logger:
         class: SimpleBus\SymfonyBridge\Logger\MessageLogger
 
-    simple_bus.logging.events_middleware:
-        class: SimpleBus\SymfonyBridge\Bus\Middleware\MessageLogger
-        arguments:
-            - @simple_bus.message_logger
-            - event_bus
-            - event
-        tags:
-            - {name: event_bus_middleware, priority: -1001}
+    simple_bus.profiler.bus_registry:
+        class: SimpleBus\SymfonyBridge\Bus\BusRegistry
 
-    simple_bus.logging.command_executing_middleware:
+    simple_bus.logging.profiler_middleware.abstract:
         class: SimpleBus\SymfonyBridge\Bus\Middleware\MessageLogger
+        abstract: true
+        public: false
         arguments:
             - @simple_bus.message_logger
-            - command_bus
-            - executing
-        tags:
-            - {name: command_bus_middleware, priority: -999}
-
-    simple_bus.logging.command_executed_middleware:
-        class: SimpleBus\SymfonyBridge\Bus\Middleware\MessageLogger
-        arguments:
-            - @simple_bus.message_logger
-            - command_bus
-            - executed
-        tags:
-            - {name: command_bus_middleware, priority: -1001}
-
-    simple_bus.logging.command_incoming_middleware:
-        class: SimpleBus\SymfonyBridge\Bus\Middleware\MessageLogger
-        arguments:
-            - @simple_bus.message_logger
-            - command_bus
-            - incoming
-        tags:
-            - {name: command_bus_middleware, priority: 1001}
+            - ~
 
     simple_bus.data_collector:
         class: SimpleBus\SymfonyBridge\DataCollector\MessageBusDataCollector
         arguments:
             - @simple_bus.message_logger
+            - @simple_bus.profiler.bus_registry
         tags:
             - { name: data_collector, template: "SimpleBusEventBusBundle::collector.html.twig", id: "simple_bus"}

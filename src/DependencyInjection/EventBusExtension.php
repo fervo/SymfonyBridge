@@ -29,7 +29,6 @@ class EventBusExtension extends ConfigurableExtension
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
 
         $loader->load('event_bus.yml');
-        $loader->load('logging.yml');
 
         $container->setAlias(
             'simple_bus.event_bus.event_name_resolver',
